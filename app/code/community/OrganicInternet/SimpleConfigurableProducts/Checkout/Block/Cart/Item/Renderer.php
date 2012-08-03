@@ -67,10 +67,8 @@ class OrganicInternet_SimpleConfigurableProducts_Checkout_Block_Cart_Item_Render
     public function getOptionList()
     {
         $options = false;
-        if (Mage::getStoreConfig('SCP_options/cart/show_custom_options')) {
-            $options = parent::getOptionList();
-        }
-
+        /* begin dmtw */
+    	/* change order of custom options and configurable attributes in cart */
         if (Mage::getStoreConfig('SCP_options/cart/show_config_product_options')) {
             if ($this->getConfigurableProductParentId()) {
                 $attributes = $this->getConfigurableProductParent()
@@ -85,6 +83,12 @@ class OrganicInternet_SimpleConfigurableProducts_Checkout_Block_Cart_Item_Render
                 }
             }
         }
+
+		if (Mage::getStoreConfig('SCP_options/cart/show_custom_options')) {
+			$customoptions = parent::getOptionList();
+			$options = array_merge($options, $customoptions);
+		}
+		/* end dmtw */
         return $options;
     }
 
